@@ -1,3 +1,5 @@
+//package java;//package java;
+
 import java.io.File;
 import java.util.Scanner;
 
@@ -13,7 +15,7 @@ public class AngleCorrection {
         return temp/2;
     }
 
-    static double [] getXandYdiff(Scanner inFile, int firstWhitePixelX, int firstWhitePixelY){
+    static int getXandYdiff(Scanner inFile, int firstWhitePixelX, int firstWhitePixelY){
         while(inFile.hasNext()){
             String line = inFile.nextLine();
             int temp = getXCordinate(line);
@@ -38,9 +40,6 @@ public class AngleCorrection {
             }
         }
 
-
-
-
         while(inFile.hasNext()){
             String line = inFile.nextLine();
             int temp = getXCordinate(line);
@@ -60,18 +59,7 @@ public class AngleCorrection {
         int y = lastWhitePixelY-firstWhitePixelY;
         double x = lastWhitePixelX-firstWhitePixelX;
         imageHeightRead += lastWhitePixelY;
-        double rotAngle = Math.toDegrees(Math.atan(y/x));
-        double rotAngle2 = Math.toDegrees(Math.atan2(y,x));
-        System.out.println(rotAngle);
-        System.out.println(rotAngle2);
-        return new double[]{x,y};
-
-
-    }
-
-    static boolean isRotationValid(double [] XYdiff){
-        int rectangleSide = (int)Math.sqrt(Math.pow( XYdiff[0], 2) +  Math.pow( XYdiff[1], 2));
-        return imageHeightRead >= rectangleSide;
+        return (int)Math.toDegrees(Math.atan(y/x));
     }
 
     public static void main(String [] args) throws Exception{
@@ -79,20 +67,10 @@ public class AngleCorrection {
         Scanner inFile = new Scanner(file);
 
         String fields = inFile.nextLine();//.split(",");
-
         int firstWhitePixelX = 0;
         int firstWhitePixelY = 1;
-        double[] XYdiff;
-        do {
-            XYdiff = getXandYdiff(inFile, firstWhitePixelX, firstWhitePixelY);
-        }
-        while (!isRotationValid(XYdiff));
+        int angle =  getXandYdiff(inFile, firstWhitePixelX, firstWhitePixelY);
+        System.out.println(angle);
 
-        double y = XYdiff[1];
-        double x = XYdiff[0];
-        double rotAngle = Math.toDegrees(Math.atan(y/x));
-        double rotAngle2 = Math.toDegrees(Math.atan2(y,x));
-        System.out.println(rotAngle);
-        System.out.println(rotAngle2);
     }
 }
