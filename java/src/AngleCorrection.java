@@ -1,4 +1,3 @@
-//package java;//package java;
 
 import java.io.File;
 import java.util.Scanner;
